@@ -36,27 +36,47 @@ const handleClerkWebhook = httpAction(async (ctx, req) => {
     });
   }
 
-  switch (event.type) {
-    case "user.created":
-      console.log("user.created event")
-      const user = await ctx.runQuery(internal.user.get, {
-        clerkId: event.data.id,
+  // switch (event.type) {
+  //   case "user.created":
+  //     console.log("user.created event")
+  //     const user = await ctx.runQuery(internal.user.get, {
+  //       clerkId: event.data.id,
+  //     });
+  //     if (user) {
+  //       console.log(`Updating user ${event.data.id} with: ${event.data}`);
+  //     }
+  //     break;
+  //   case "user.updated":
+  //     console.log(`Creating/Updating ${event.data.id}`);
+  //     await ctx.runMutation(internal.user.create, {
+  //       username: `${event.data.first_name} ${event.data.last_name}`,
+  //       imageUrl: event.data.image_url,
+  //       clerkId: event.data.id,
+  //       email: event.data.email_addresses[0].email_address,
+  //     });
+  //     break;
+  //   default:
+  //     console.log(`Clerk webhook event not supported ${event.type}`);
+  // }
+
+  if (event.type === "user.created" || event.type === "user.updated") {
+    console.log(`Creating/Updating ${event.data.id}`);
+    await ctx.runMutation(internal.user.createOrUpdate, {
+      username: `${event.data.first_name} ${event.data.last_name}`,
+      imageUrl: event.data.image_url,
+      clerkId: event.data.id,
+      email: event.data.email_addresses[0].email_address,
+    });
+  } else if (event.type === "user.deleted") {
+    const user = await ctx.runQuery(internal.user.get, {
+      clerkId: event.data.id!,
+    });
+
+    if (user) {
+      await ctx.runMutation(internal.user.remove, {
+        clerkId: user.clerkId,
       });
-      if (user) {
-        console.log(`Updating user ${event.data.id} with: ${event.data}`);
-      }
-      break;
-    case "user.updated":
-      console.log(`Creating/Updating ${event.data.id}`);
-      await ctx.runMutation(internal.user.create, {
-        username: `${event.data.first_name} ${event.data.last_name}`,
-        imageUrl: event.data.image_url,
-        clerkId: event.data.id,
-        email: event.data.email_addresses[0].email_address,
-      });
-      break;
-    default:
-      console.log(`Clerk webhook event not supported ${event.type}`);
+    }
   }
 
   return new Response(null, {
