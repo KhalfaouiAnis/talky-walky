@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -111,7 +117,6 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
-
 
 @layer base {
   * {
