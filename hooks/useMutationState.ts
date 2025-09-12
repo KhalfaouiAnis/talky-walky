@@ -9,7 +9,7 @@ export const useMutationState = (
   const mutationFn = useMutation(mutationToRun);
 
   //   eslint-disable-next-line
-  const mudtate = (payload: any) => {
+  const mutate = (payload: any) => {
     setPending(true);
     
     return mutationFn(payload)
@@ -20,5 +20,5 @@ export const useMutationState = (
       .finally(() => setPending(false));
   };
 
-  return { mudtate, pending };
+  return { mutate, pending };
 };

@@ -27,6 +27,8 @@ export default function ConversationsLayout({
                                     id={convs.conversation._id}
                                     username={convs.otherMember?.username || ""}
                                     imageUrl={convs.otherMember?.imageUrl || ""}
+                                    lastMessageContent={convs.lastMessage?.content}
+                                    lastMessageSender={convs.lastMessage?.sender}
                                 />
                         })
                         : <Loader2 />

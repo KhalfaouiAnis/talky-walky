@@ -17,8 +17,8 @@ type Props = {
 
 function Request({ id, imageUrl, username, email }: Props) {
 
-    const { mudtate: denyRequest, pending: denyPending } = useMutationState(api.request.deny)
-    const { mudtate: acceptRequest, pending: acceptPending } = useMutationState(api.request.accept)
+    const { mutate: denyRequest, pending: denyPending } = useMutationState(api.request.deny)
+    const { mutate: acceptRequest, pending: acceptPending } = useMutationState(api.request.accept)
 
     const handleDenyrequest = () => {
         denyRequest({id}).then(() => {

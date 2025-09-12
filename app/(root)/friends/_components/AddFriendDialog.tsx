@@ -38,7 +38,7 @@ const addFriendFormSchema = z.object({
 })
 
 function AddFriendDialog() {
-    const { mudtate: createRequest, pending } = useMutationState(api.request.create)
+    const { mutate: createRequest, pending } = useMutationState(api.request.create)
 
     const form = useForm<z.infer<typeof addFriendFormSchema>>({
         resolver: zodResolver(addFriendFormSchema),
