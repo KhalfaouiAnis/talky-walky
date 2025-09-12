@@ -1,6 +1,6 @@
 "use client";
 
-import Uploader from "@/components/shared/uploader";
+// import Uploader from "@/components/shared/uploader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -101,12 +101,12 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
                 <FormItem>
                   <FormControl>
                     <div className="py-4">
-                      <Uploader
+                      {/* <Uploader
                         type={type}
                         onChange={(urls) =>
                           form.setValue("files", [...files, ...urls])
                         }
-                      />
+                      /> */}
                     </div>
                   </FormControl>
                   <FormMessage />
