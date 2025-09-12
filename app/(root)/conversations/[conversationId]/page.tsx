@@ -11,6 +11,7 @@ import ChatInput from "./_components/input/ChatInput";
 import { useState } from "react";
 import RemoveFriendDialog from "./_components/dialogs/RemoveFriendDialog";
 import { useParams } from "next/navigation";
+import DeleteGroupDialog from "./_components/dialogs/DeleteGroupDialog";
 
 
 function ConversationPage() {
@@ -35,9 +36,19 @@ function ConversationPage() {
                         open={removeFriendDialogOpen}
                         setOpen={setRemoveFriendDialogOpen}
                     />
+                    <DeleteGroupDialog
+                        conversationId={conversationId as Id<"conversations">}
+                        open={deleteGroupDialogOpen}
+                        setOpen={setDeleteGroupDialogOpen}
+                    />
+                    <DeleteGroupDialog
+                        conversationId={conversationId as Id<"conversations">}
+                        open={leaveGroupDialogOpen}
+                        setOpen={setLeaveGroupDialogOpen}
+                    />
                     <Header
-                        imageUrl={conversation.isGroup ? undefined : conversation.otherMember.imageUrl}
-                        name={(conversation.isGroup ? conversation.name : conversation.otherMember.username) || ""}
+                        imageUrl={conversation.isGroup ? undefined : conversation.otherMember?.imageUrl}
+                        name={(conversation.isGroup ? conversation.name : conversation.otherMember?.username) || ""}
                         options={conversation.isGroup ? [
                             { label: 'Leave group', destructive: true, onClick: () => setLeaveGroupDialogOpen(true) },
                             { label: 'Delete group', destructive: true, onClick: () => setDeleteGroupDialogOpen(true) },
@@ -45,7 +56,17 @@ function ConversationPage() {
                             { label: 'Remove friend', destructive: true, onClick: () => setRemoveFriendDialogOpen(true) },
                         ]}
                     />
-                    <Body />
+                    <Body
+                        members={conversation.isGroup
+                            ? conversation.otherMembers
+                                ? conversation.otherMembers
+                                :
+                                []
+                            :
+                            conversation.otherMember
+                                ? [conversation.otherMember]
+                                :
+                                []} />
                     <ChatInput />
                 </ConversationContainer>
     );

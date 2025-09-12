@@ -25,7 +25,6 @@ function ChatInput() {
     const { mutate: createMessage, pending } = useMutationState(api.message.create)
     const form = useForm<z.infer<typeof chatMessageSchema>>({
         resolver: zodResolver(chatMessageSchema),
-        mode: "onTouched",
         defaultValues: { content: "" }
     })
 
