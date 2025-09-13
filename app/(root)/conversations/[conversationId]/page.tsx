@@ -47,6 +47,7 @@ function ConversationPage() {
                         setOpen={setLeaveGroupDialogOpen}
                     />
                     <Header
+                        setCallType={setCallType}
                         imageUrl={conversation.isGroup ? undefined : conversation.otherMember?.imageUrl}
                         name={(conversation.isGroup ? conversation.name : conversation.otherMember?.username) || ""}
                         options={conversation.isGroup ? [
@@ -57,6 +58,8 @@ function ConversationPage() {
                         ]}
                     />
                     <Body
+                        setCallType={setCallType}
+                        callType={callType}
                         members={conversation.isGroup
                             ? conversation.otherMembers
                                 ? conversation.otherMembers

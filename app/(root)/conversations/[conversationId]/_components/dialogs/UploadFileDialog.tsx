@@ -1,6 +1,6 @@
 "use client";
 
-// import Uploader from "@/components/shared/uploader";
+import Uploader from "@/components/shared/uploader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,7 +23,7 @@ import { useConversation } from "@/hooks/useConversation";
 import { useMutationState } from "@/hooks/useMutationState";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConvexError } from "convex/values";
-import { File, Image } from "lucide-react";
+import { File, Image as ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -80,7 +80,7 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
     <Dialog open={open} onOpenChange={(open) => toggle(open)}>
       <DialogTrigger asChild>
         <Button size="icon" variant="outline">
-          {type === "image" ? <Image /> : <File />}
+          {type === "image" ? <ImageIcon /> : <File />}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -101,12 +101,12 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
                 <FormItem>
                   <FormControl>
                     <div className="py-4">
-                      {/* <Uploader
+                      <Uploader
                         type={type}
                         onChange={(urls) =>
                           form.setValue("files", [...files, ...urls])
                         }
-                      /> */}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />

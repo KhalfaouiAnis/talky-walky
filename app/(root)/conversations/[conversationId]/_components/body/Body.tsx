@@ -6,8 +6,9 @@ import { useConversation } from "@/hooks/useConversation";
 import { useQuery } from "convex/react";
 import Message from "./Message";
 import { useMutationState } from "@/hooks/useMutationState";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { CallRoom } from "./CallRoom";
 
 type Props = {
     members: {
@@ -16,11 +17,11 @@ type Props = {
         username?: string;
         [key: string]: unknown;
     }[];
-    // callType: "audio" | "video" | null;
-    // setCallType: Dispatch<SetStateAction<"audio" | "video" | null>>;
+    callType: "audio" | "video" | null;
+    setCallType: Dispatch<SetStateAction<"audio" | "video" | null>>;
 };
 
-function Body({ members }: Props) {
+function Body({ members, callType, setCallType }: Props) {
     const { conversationId } = useConversation()
     const messages = useQuery(api.messages.get, {
         id: conversationId as Id<"conversations">
@@ -83,7 +84,7 @@ function Body({ members }: Props) {
 
     return (
         <div className="w-full flex flex-1 overflow-y-scroll flex-col-reverse gap-2 p-3 no-scrollbar">
-            {messages?.map(({ message, isCurrentUser, senderImage, senderName }, index) => {
+            {!callType ? (messages?.map(({ message, isCurrentUser, senderImage, senderName }, index) => {
                 const lastByUser = messages[index - 1]?.message.senderId === messages[index].message.senderId
                 const seenMessage = getSeenMessage(message._id, message.senderId);
 
@@ -98,7 +99,11 @@ function Body({ members }: Props) {
                     type={message.type}
                     seen={seenMessage}
                 />
-            })}
+            })) : <CallRoom
+                audio={callType === "audio" || callType === "video"}
+                video={callType === "video"}
+                handleDisconnect={() => setCallType(null)} />
+            }
         </div>
     );
 }
