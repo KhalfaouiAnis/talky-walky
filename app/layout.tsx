@@ -24,12 +24,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Talky Walky",
   description: "Realtime chat app built using NextJS",
-  // generator: "Next.js",
-  // manifest: "/manifest.json",
+  generator: "Next.js",
+  manifest: "/manifest.json",
   authors: [{ name: "Anis Khalaoui" }],
   icons: [
-    // { rel: "apple-touch-icon", url: "icon-192x192.png" },
-    // { rel: "icon", url: "icon-192x192.png" },
+    { rel: "apple-touch-icon", url: "icon-192x192.png" },
+    { rel: "icon", url: "icon-192x192.png" },
   ],
 };
 
